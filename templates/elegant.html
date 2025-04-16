@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    .sidebar {
+      background-color: #2e5d45;
+      color: white;
+      width: 30%;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+    .main {
+      padding: 40px;
+      width: 70%;
+    }
+    .profile-img {
+      width: 120px;
+      border-radius: 50%;
+    }
+    .sidebar h1, .sidebar h3, .sidebar p {
+      margin: 10px 0;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    .section h2 {
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    {% if image %}
+      <img src="data:image/png;base64,{{ image }}" class="profile-img" />
+    {% endif %}
+    <h1>{{ name }}</h1>
+    <h3>{{ job_title }}</h3>
+    <p>{{ email }}</p>
+    <p>{{ phone }}</p>
+    <p>{{ location }}</p>
+    <h3>Soft Skills</h3>
+    <ul>{% for skill in soft_skills %}<li>{{ skill }}</li>{% endfor %}</ul>
+    <h3>Hard Skills</h3>
+    <ul>{% for skill in hard_skills %}<li>{{ skill }}</li>{% endfor %}</ul>
+  </div>
+  <div class="main">
+    <div class="section">
+      <h2>Summary</h2>
+      <p>{{ summary }}</p>
+    </div>
+
+    <div class="section">
+      <h2>Experience</h2>
+      {% for job in experience %}
+        <p><strong>{{ job.title }}</strong> at {{ job.company }} ({{ job.years }})</p>
+        <ul>{% for point in job.description %}<li>{{ point }}</li>{% endfor %}</ul>
+      {% endfor %}
+    </div>
+
+    <div class="section">
+      <h2>Education</h2>
+      <ul>{% for edu in education %}<li><strong>{{ edu.degree }}</strong> - {{ edu.school }} ({{ edu.years }})</li>{% endfor %}</ul>
+    </div>
+
+    <div class="section">
+      <h2>Projects</h2>
+      <ul>{% for proj in projects %}<li><strong>{{ proj.title }}</strong> - {{ proj.tech }}<br>{{ proj.desc }}</li>{% endfor %}</ul>
+    </div>
+
+    {% if awards %}
+    <div class="section">
+      <h2>Awards</h2>
+      <ul>{% for award in awards %}<li>{{ award }}</li>{% endfor %}</ul>
+    </div>
+    {% endif %}
+
+    {% if certifications %}
+    <div class="section">
+      <h2>Certifications</h2>
+      <ul>{% for c in certifications %}<li><a href="{{ c.link }}">{{ c.name }}</a></li>{% endfor %}</ul>
+    </div>
+    {% endif %}
+
+    {% for custom in custom_sections %}
+    <div class="section">
+      <h2>{{ custom.title }}</h2>
+      <ul>{% for item in custom.content %}<li>{{ item }}</li>{% endfor %}</ul>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
